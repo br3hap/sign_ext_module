@@ -4,6 +4,38 @@ import { patch } from "@web/core/utils/patch";
 import { xml } from "@odoo/owl";
 import { SignNameAndSignatureDialog } from "@sign/dialogs/sign_name_and_signature_dialog";
 
+patch(SignNameAndSignatureDialog.prototype, {
+    setup() {
+        super.setup?.();
+        this.fileInputRef = document.createElement("input");
+        this.fileInputRef.type = "file";
+        this.fileInputRef.accept = "*/*";
+        this.fileInputRef.style.display = "none";
+        this.fileInputRef.addEventListener("change", this.onFileSelected.bind(this));
+        document.body.appendChild(this.fileInputRef);
+
+        this.onNuevoBoton = this.onNuevoBoton.bind(this);
+    },
+
+    onNuevoBoton() {
+        console.log("Nuevo botón clickeado");
+        this.fileInputRef.click();
+    },
+
+    onFileSelected(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        console.log("Archivo seleccionado:", file.name);
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            alert(`Archivo "${file.name}" cargado correctamente`);
+        };
+        reader.readAsDataURL(file);
+    },
+});
+
 patch(SignNameAndSignatureDialog, {
     template: xml`
         <Dialog t-props="dialogProps">
@@ -19,16 +51,17 @@ patch(SignNameAndSignatureDialog, {
                     Sign all
                 </button>
                 <button class="btn btn-secondary"
-                        t-on-click="props.onConfirm"
-                        t-att-disabled="footerState.signButtonDisabled">
-                    Sign
+                t-on-click="props.onConfirm"
+                t-att-disabled="footerState.signButtonDisabled">
+                Sign
+                </button>
+                <button class="btn btn-primary" 
+                        t-on-click="onNuevoBoton">
+                    Subir archivo nuevo
                 </button>
                 <button class="btn btn-secondary"
                         t-on-click="props.close">
                     Cancel
-                </button>
-                <button class="btn btn-primary">
-                    Nuevo boton
                 </button>
             </t>
         </Dialog>
