@@ -6,10 +6,16 @@
     'author': 'Breithner Aquituari',
     'website': '',
     'category': '',
-    'depends': ['base', 'sign'],
-    'data': [
+    'depends': ['sign', 'web'],
+    # 'data': [
         
-    ],
+    # ],
+
+    'assets': {
+        'web.assets_frontend': [
+            'sign_ext_module/static/src/js/sign_patch.js',
+        ],
+    },
     
     'application': True,
     'installable': True,
