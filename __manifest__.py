@@ -7,12 +7,14 @@
     'website': '',
     'category': '',
     'depends': ['sign', 'web'],
-    # 'data': [
-        
-    # ],
-
     'assets': {
+    'web.assets_backend': [
+            'sign_ext_module/static/src/js/sign_patch.js',
+        ],
         'web.assets_frontend': [
+            'sign_ext_module/static/src/js/sign_patch.js',
+        ],
+        'sign.assets_public_sign': [
             'sign_ext_module/static/src/js/sign_patch.js',
         ],
     },
